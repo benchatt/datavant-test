@@ -23,7 +23,7 @@ def testcase() -> dict:
 
 
 @pytest.mark.parametrize("lg", ["en"])
-def test_search_tickets(
+def test_search_tickets_and_validate_data_persists_on_cancel(
     playwright: Playwright, i18n: Intl, testcase: dict, lg: str
 ) -> None:
     browser = playwright.chromium.launch(headless=False)
@@ -60,15 +60,9 @@ def test_search_tickets(
     ).to_be_visible()
     page.get_by_role("button", name=i18n[lg]["cancel"]).click()
 
-    page.wait_for_load_state()
-    assert (
-        page.get_by_placeholder(i18n[lg]["from"]).input_value()
-        == testcase["depart_station"]
-    )
-    assert (
-        page.get_by_placeholder(i18n[lg]["to"]).input_value()
-        == testcase["arrive_station"]
-    )
+    page.wait_for_load_state("domcontentloaded")
+    expect(page.get_by_placeholder(i18n[lg]["from"])).to_have_value(testcase["depart_station"])
+    expect(page.get_by_placeholder(i18n[lg]["to"])).to_have_value(testcase["arrive_station"])
     assert (
         depart_day
         in page.get_by_placeholder(i18n[lg]["depart_date"], exact=True).input_value()

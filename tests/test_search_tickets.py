@@ -23,7 +23,9 @@ def testcase() -> dict:
 
 
 @pytest.mark.parametrize("lg", ["en"])
-def test_search_tickets(playwright: Playwright, i18n: Intl, testcase: dict) -> None:
+def test_search_tickets(
+    playwright: Playwright, i18n: Intl, testcase: dict, lg: str
+) -> None:
     browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
     page = context.new_page()
@@ -33,7 +35,6 @@ def test_search_tickets(playwright: Playwright, i18n: Intl, testcase: dict) -> N
     page.get_by_placeholder(i18n[lg]["from"]).fill(testcase["depart_station"])
     page.get_by_placeholder(i18n[lg]["to"]).click()
     page.get_by_placeholder(i18n[lg]["to"]).fill(testcase["arrive_station"])
-    # page.get_by_placeholder(i18n[lg]["departure_date"], exact=True).click()
 
     depart_day = str(testcase["depart_date"].day)
     return_day = str(testcase["return_date"].day)
@@ -44,7 +45,6 @@ def test_search_tickets(playwright: Playwright, i18n: Intl, testcase: dict) -> N
     page.get_by_placeholder(i18n[lg]["return_date"], exact=True).click()
     if int(return_day) < TODAY.day:
         page.get_by_title(i18n[lg]["next_month"]).click()
-    # page.get_by_placeholder(i18n[lg]["return_date"]).click()
     page.locator("#datepicker-second_table").get_by_text(return_day, exact=True).click()
     page.get_by_role("button", name=i18n[lg]["submit"]).click()
 

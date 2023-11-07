@@ -13,6 +13,8 @@ Run tests:
 
 Check out the PyTest (command-line options)[https://docs.pytest.org/en/7.3.x/how-to/usage.html#usage].
 
+## ANSWERS
+
 ### Question 2
 
 Oddities:
@@ -33,6 +35,8 @@ Improvements for Automated Testing:
 * On this note, the Test IDs should follow a basic, intuitive pattern based on the DOM structure.
 * There are a lot of typographical idiosyncrasies I'd clean up: "X Cancel", "Submit »" and "From " stand out.
 * One improvement for general UX is that I might reword the English site a little.
+
+## BIBLIOGRAPHY
 
 #### Websites used
 
